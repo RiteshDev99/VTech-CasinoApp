@@ -1,10 +1,10 @@
-// src/redux/thunks/spinThunk.js
+// src/store/thunks/spinThunk.js
 import { createAsyncThunk } from '@reduxjs/toolkit';
 import {
   playSpinAPI,
   purchaseSpinAPI,
   getSpinLogsAPI,
-  getPrizeListAPI
+  getPrizeListAPI,
 } from '../../services/spinAPI';
 
 export const purchaseSpin = createAsyncThunk(
@@ -44,7 +44,7 @@ export const fetchPrizeList = createAsyncThunk(
   'spin/fetchPrizeList',
   async (_, { rejectWithValue }) => {
     try {
-      return await getPrizeListAPI()
+      return await getPrizeListAPI();
     } catch (error) {
       return rejectWithValue(
         error?.response?.data?.message || 'Failed to fetch prizes'

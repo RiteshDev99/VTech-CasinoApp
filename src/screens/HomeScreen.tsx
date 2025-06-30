@@ -73,7 +73,7 @@ const HomeScreen: React.FC = () => {
 
     const user = useSelector((state: RootState) => state.auth.user);
 
-    
+
 
     return (
         <ScrollView contentContainerStyle={[styles.scrollViewContent, { paddingBottom: insets.bottom + 100 }]}>

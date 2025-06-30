@@ -19,8 +19,6 @@ export const playSpinAPI = async () => {
         headers: { Authorization: `Bearer ${token}` },
     });
     return response.data;
-    
-    
 };
 
 export const getSpinLogsAPI = async () => {
@@ -39,6 +37,7 @@ export const getPrizeListAPI = async () => {
   
     return response.data;
   };
+
 
 
 

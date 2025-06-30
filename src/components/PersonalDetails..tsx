@@ -77,8 +77,8 @@ const PersonalDetails = () => {
     };
 
 
-  
-   
+
+
     const handleSave = () => {
         const payload = {
             _id: userDetails._id,

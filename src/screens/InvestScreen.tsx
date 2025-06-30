@@ -341,7 +341,7 @@ const InvestScreen = () => {
                   const status = item.status
                   ? item.status.charAt(0).toUpperCase() + item.status.slice(1)
                   : '';
-                
+
                   // Determine color
                   let color = '#2E7D32'; // default green
                   if (planName.toLowerCase().includes('gold')) {

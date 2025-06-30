@@ -1,4 +1,4 @@
-import React, { useEffect, useRef, useState } from "react";
+import React, { useEffect, useRef, useState } from 'react';
 import {
   Animated,
   Dimensions,
@@ -11,22 +11,20 @@ import {
   Text,
   TouchableOpacity,
   View,
-} from "react-native";
-import Svg, { Circle, G, Path, Text as SvgText } from "react-native-svg";
-import { RFValue } from "react-native-responsive-fontsize";
-import { useDispatch, useSelector } from "react-redux";
-import { getSpinLogs } from "../store/features/adminSpinLogs/adminSpinLogsApi";
-import { playSpinAPI } from "../store/features/spin/spinApi";
-import { fetchPrizeList } from "../store/features/spin/spinThunk"; 
+} from 'react-native';
+import Svg, { Circle, G, Path, Text as SvgText } from 'react-native-svg';
+import { RFValue } from 'react-native-responsive-fontsize';
+import { useDispatch, useSelector } from 'react-redux';
+import { fetchPrizeList } from '../store/features/spin/spinThunk';
 
 
-const { width } = Dimensions.get("window");
+const { width } = Dimensions.get('window');
 const wheelSize = width * 0.8;
 const numberOfSegments = 12;
 const angleBySegment = 360 / numberOfSegments;
 const oneTurn = 360;
 
-const colors = ["#ffbf80", "#661a00"];
+const colors = ['#ffbf80', '#661a00'];
 
 function calculateArc(startAngle, endAngle) {
   const r = wheelSize / 2;
@@ -38,7 +36,7 @@ function calculateArc(startAngle, endAngle) {
   const x2 = r + r * Math.cos(endRadians);
   const y2 = r + r * Math.sin(endRadians);
 
-  const largeArcFlag = endAngle - startAngle <= 180 ? "0" : "1";
+  const largeArcFlag = endAngle - startAngle <= 180 ? '0' : '1';
 
   return (
     `M${r},${r} L${x1},${y1} ` + `A${r},${r} 0 ${largeArcFlag} 1 ${x2},${y2} Z`
@@ -46,35 +44,38 @@ function calculateArc(startAngle, endAngle) {
 }
 
 export default function FortuneWheel() {
-  const [winner, setWinner] = useState("");
+  const [winner, setWinner] = useState('');
   const [isSpinning, setIsSpinning] = useState(false);
   const [modalVisible, setModalVisible] = useState(false);
   const animatedValue = useRef(new Animated.Value(0)).current;
   const wheelRotation = useRef(0);
   const { height, width } = Dimensions.get('window');
   const dispatch = useDispatch();
-  const {
-    lastSpinResult,
-    remainingSpins,
-    walletBalance,
-    loading,
-    error,
-    prizes = [],
-  } = useSelector((state) => state.spin || {});
+  // const {
+  //   // lastSpinResult,
+  //   // remainingSpins,
+  //   // walletBalance,
+  //   // loading,
+  //   // error,
+  //   prizes = [],
+  // } = useSelector((state) => state.spin || {});
+
+  const { prizes = []} = useSelector((state) => state.spin.prizes);
+
 
 
   useEffect(()=>{
-    dispatch(fetchPrizeList())
-  },[])
-  
+    dispatch(fetchPrizeList());
+  },[dispatch]);
 
 
-  
+
+
 
   const spinWheel = () => {
-    if (isSpinning) return;
+    if (isSpinning) {return;}
     setIsSpinning(true);
-    setWinner("");
+    setWinner('');
     setModalVisible(false);
     const randomIndex = Math.floor(Math.random() * numberOfSegments);
 
@@ -99,7 +100,7 @@ export default function FortuneWheel() {
 
   const interpolatedRotate = animatedValue.interpolate({
     inputRange: [0, 360],
-    outputRange: ["0deg", "360deg"],
+    outputRange: ['0deg', '360deg'],
   });
 
   // Knob size and style
@@ -130,12 +131,12 @@ export default function FortuneWheel() {
             />
           </View>
 
-          <View style={{ alignItems: "center", justifyContent: "center" }}>
+          <View style={{ alignItems: 'center', justifyContent: 'center' }}>
             {/* Golden Border */}
             <Svg
               width={wheelSize + 18}
               height={wheelSize + 18}
-              style={{ position: "absolute" }}
+              style={{ position: 'absolute' }}
             >
               <Circle
                 cx={(wheelSize + 18) / 2}
@@ -207,22 +208,22 @@ export default function FortuneWheel() {
             {/* Knob at the center, triangle pointing upward */}
             <View style={styles.knobContainer}>
               <View style={styles.knobInside}>
-                <Image source={require("../assests/images/knob.png")} style={styles.knobPointer} />
+                <Image source={require('../assests/images/knob.png')} style={styles.knobPointer} />
               </View>
             </View>
           </View>
 
           {/* Spin Button */}
           <TouchableOpacity
-            style={[styles.button, isSpinning && { backgroundColor: "#999" }]}
+            style={[styles.button, isSpinning && { backgroundColor: '#999' }]}
             onPress={spinWheel}
             disabled={isSpinning}
           >
             <Text style={styles.buttonText}>
-              {isSpinning ? "Spinning..." : "Spin Now"}
+              {isSpinning ? 'Spinning...' : 'Spin Now'}
             </Text>
           </TouchableOpacity>
-          <Text style={{ color: "white", margin: 15 }}>
+          <Text style={{ color: 'white', margin: 15 }}>
             Daily 3 Spins Free More Spins Via Referal
           </Text>
         </View>
@@ -240,21 +241,21 @@ export default function FortuneWheel() {
             <Text
               style={{
                 fontSize: 28,
-                fontWeight: "bold",
-                color: "#FFD700",
+                fontWeight: 'bold',
+                color: '#FFD700',
                 marginBottom: 12,
               }}
             >
               Congratulations!
             </Text>
-            <Text style={{ fontSize: 20, color: "#333", marginBottom: 16 }}>
+            <Text style={{ fontSize: 20, color: '#333', marginBottom: 16 }}>
               You Won
             </Text>
             <Text
               style={{
                 fontSize: 40,
-                fontWeight: "bold",
-                color: "#27ae60",
+                fontWeight: 'bold',
+                color: '#27ae60',
                 marginBottom: 16,
               }}
             >
@@ -263,7 +264,7 @@ export default function FortuneWheel() {
             <TouchableOpacity
               style={[
                 styles.button,
-                { backgroundColor: "#27ae60", paddingHorizontal: 40 },
+                { backgroundColor: '#27ae60', paddingHorizontal: 40 },
               ]}
               onPress={() => {
                 setModalVisible(false);
@@ -277,7 +278,7 @@ export default function FortuneWheel() {
               style={{ marginTop: 16 }}
               onPress={() => setModalVisible(false)}
             >
-              <Text style={{ color: "#555", fontSize: 16 }}>Close</Text>
+              <Text style={{ color: '#555', fontSize: 16 }}>Close</Text>
             </TouchableOpacity>
           </View>
         </View>
@@ -289,8 +290,8 @@ export default function FortuneWheel() {
 const styles = StyleSheet.create({
   container: {
     flex: 1,
-    alignItems: "center",
-    justifyContent: "center",
+    alignItems: 'center',
+    justifyContent: 'center',
   },
   overlayContainer: {
     flex: 1,
@@ -301,90 +302,90 @@ const styles = StyleSheet.create({
   BGImage: {
     flex: 1,
     height: '100%',
-    width: '100%'
+    width: '100%',
   },
   mainContainer: {
-    position: 'relative'
+    position: 'relative',
   },
   vectorImage: {
     resizeMode: 'contain',
-    position: 'absolute'
+    position: 'absolute',
   },
   contentTextContainer: {},
   FortuneText: {
     fontSize: RFValue(36),
     fontWeight: 700,
     color: '#ffff',
-    textAlign: 'center'
+    textAlign: 'center',
   },
   spinContentText: {
     color: '#ffff',
     textAlign: 'center',
-    fontSize: RFValue(16)
+    fontSize: RFValue(16),
   },
   title: {
     fontSize: 34,
-    fontWeight: "bold",
-    color: "white",
+    fontWeight: 'bold',
+    color: 'white',
   },
   knobContainer: {
-    position: "absolute",
+    position: 'absolute',
     width: 30,
     height: 30,
     borderRadius: 30,
-    backgroundColor: "yellow",
-    justifyContent: "center",
-    alignItems: "center",
+    backgroundColor: 'yellow',
+    justifyContent: 'center',
+    alignItems: 'center',
     zIndex: 5,
   },
   knobInside: {
-    position: "absolute",
+    position: 'absolute',
     width: 25,
     height: 25,
     borderRadius: 30,
-    backgroundColor: "rgb(172, 55, 16)",
-    justifyContent: "center",
-    alignItems: "center",
+    backgroundColor: 'rgb(172, 55, 16)',
+    justifyContent: 'center',
+    alignItems: 'center',
     zIndex: 5,
   },
   knobPointer: {
-    position: "absolute",
+    position: 'absolute',
     top: -8,
     width: 25,
     height: 30,
     borderRadius: 30,
     // backgroundColor: "rgb(204, 157, 46)",
-    justifyContent: "center",
-    alignItems: "center",
+    justifyContent: 'center',
+    alignItems: 'center',
     // zIndex: 4,
   },
   button: {
     marginTop: 40,
-    backgroundColor: "green",
+    backgroundColor: 'green',
     paddingHorizontal: 120,
     paddingVertical: 14,
     borderRadius: 5,
     elevation: 3,
   },
   buttonText: {
-    color: "#fff",
-    fontWeight: "bold",
+    color: '#fff',
+    fontWeight: 'bold',
     fontSize: 20,
   },
   modalOverlay: {
     flex: 1,
-    backgroundColor: "rgba(10,10,10,0.65)",
-    justifyContent: "center",
-    alignItems: "center",
+    backgroundColor: 'rgba(10,10,10,0.65)',
+    justifyContent: 'center',
+    alignItems: 'center',
   },
   modalContent: {
-    backgroundColor: "#fff",
+    backgroundColor: '#fff',
     borderRadius: 5,
     padding: 24,
-    alignItems: "center",
+    alignItems: 'center',
     minWidth: 300,
     elevation: 6,
-    shadowColor: "#000",
+    shadowColor: '#000',
     shadowOffset: { width: 0, height: 2 },
     shadowOpacity: 0.2,
     shadowRadius: 8,

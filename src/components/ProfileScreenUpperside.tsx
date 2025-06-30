@@ -17,7 +17,7 @@ const ProfileScreenUpperside = () => {
     const dispatch = useDispatch<AppDispatch>();
     const { basicUser, userDetails } = useSelector((state: RootState) => state.auth);
 
-  
+
 
     useEffect(() => {
         if (basicUser?._id && !userDetails) {

@@ -1,4 +1,4 @@
-import { createAsyncThunk, createSlice } from '@reduxjs/toolkit';
+import {createSlice } from '@reduxjs/toolkit';
 import { playSpin, purchaseSpin, getSpinLogs, fetchPrizeList } from './spinThunk';
 import { getToken } from './authTokenHelper'; // Assume this fetches JWT from storage
 const initialState = {
@@ -28,7 +28,7 @@ const spinSlice = createSlice({
             })
             .addCase(fetchPrizeList.fulfilled, (state, action) => {
                 state.loading = false;
-                state.prizes = action.payload.spin;
+                state.prizes = action.payload;
             })
             .addCase(fetchPrizeList.rejected, (state, action) => {
                 console.log('Error', action.payload);
